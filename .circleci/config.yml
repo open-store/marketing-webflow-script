@@ -54,11 +54,11 @@ workflows:
     jobs:
       - setup
       - lint:
-        requires:
-          - setup
+          requires:
+            - setup
       - type-check:
-        requires:
-          - setup
+          requires:
+            - setup
       - unit-test:
-        requires:
-          - setup
+          requires:
+            - setup
