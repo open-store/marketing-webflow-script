@@ -15,23 +15,29 @@ commands:
     steps:
       - attach_workspace:
           at: .
-
+  install_pnpm:
+    steps:
+      - run:
+          name: Install pnpm
+          shell: /bin/bash
+          command: |
+            curl -f https://get.pnpm.io/v6.16.js | node - add --global pnpm@7.5.2
 jobs:
   setup:
     <<: *docker-image
     steps:
       - checkout
+      - install_pnpm
       - run:
           name: Install dependencies
           shell: /bin/bash
-          command: |
-            npm install -g pnpm@7.5.2
-            pnpm install
+          command: pnpm install
       - persist_all_to_cwd
   lint:
     <<: *docker-image
     steps:
       - attach_workspace_at_cwd
+      - install_pnpm
       - run:
           name: Lint
           command: pnpm lint
@@ -39,6 +45,7 @@ jobs:
     <<: *docker-image
     steps:
       - attach_workspace_at_cwd
+      - install_pnpm
       - run:
           name: Type Check
           command: pnpm tsc --noEmit
@@ -46,6 +53,7 @@ jobs:
     <<: *docker-image
     steps:
       - attach_workspace_at_cwd
+      - install_pnpm
       - run:
           name: Check formatting
           command: pnpm test 
