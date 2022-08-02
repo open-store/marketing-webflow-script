@@ -1,0 +1,64 @@
+version: 2.1
+
+docker-image: &docker-image
+    docker:
+      - image: cimg/node:14.19.2
+
+commands:
+  persist_all_to_cwd:
+    steps:
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+  attach_workspace_at_cwd:
+    steps:
+      - attach_workspace:
+          at: .
+
+jobs:
+  setup:
+    <<: *docker-image
+    steps:
+      - checkout
+      - run:
+          name: Install dependencies
+          shell: /bin/bash
+          command: |
+            npm install -g pnpm@7.5.2
+            pnpm install
+      - persist_all_to_cwd
+  lint:
+    <<: *docker-image
+    steps:
+      - attach_workspace_at_cwd
+      - run:
+          name: Lint
+          command: pnpm lint
+  type-check:
+    <<: *docker-image
+    steps:
+      - attach_workspace_at_cwd
+      - run:
+          name: Type Check
+          command: pnpm tsc --noEmit
+  unit-test:
+    <<: *docker-image
+    steps:
+      - attach_workspace_at_cwd
+      - run:
+          name: Check formatting
+          command: pnpm test 
+workflows:
+  pull_request:
+    jobs:
+      - setup
+      - lint:
+        requires:
+          - setup
+      - type-check:
+        requires:
+          - setup
+      - unit-test:
+        requires:
+          - setup
