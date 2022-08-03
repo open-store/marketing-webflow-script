@@ -1,7 +1,7 @@
 import * as Sentry from '@sentry/browser'
 import { BrowserTracing } from '@sentry/tracing'
 import { CaptureConsole } from '@sentry/integrations'
-import { SENTRY_DSN_KEY } from './constants'
+import { SENTRY_DSN_KEY } from '../constants'
 
 export function initializeErrorTracking(): void {
   Sentry.init({

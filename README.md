@@ -7,8 +7,8 @@ here.
 
 If you want to add a new script tag to Webflow pages or update existing one
 please [follow this
-documentation](https://www.notion.so/openstore/Marketing-Webflow-Scripts-0705d9fdaf034909b8a2f4a7c80b6528).
-If you want to learn more about the project, how infrastructure around Webflow
+documentation](https://github.com/open-store/marketing-webflow-script/wiki). If
+you want to learn more about the project, how infrastructure around Webflow
 script-tag manager works please continue below.
 
 ## Deployment targets
@@ -58,6 +58,15 @@ environments.](https://s3.console.aws.amazon.com/s3/buckets/marketing-webflow-sc
     script](https://console.statsig.com/jRE7w34M1UUAn7AQKzWVC/gates/webflow_script_stackadapt)
   - [Example dynamic
     configuration](https://console.statsig.com/jRE7w34M1UUAn7AQKzWVC/dynamic_configs/webflow_config_growsurf)
+- DataDog is used to continuously run happy path end-to-end test on webflow
+  pages and ping on-call engineer if they start failing in real time.
+  - [Webflow Marketing Business Pages Happy Path
+    Test](https://app.datadoghq.com/synthetics/details/4pg-55x-5q7)
+- PagerDuty on-call rotation:
+  - [On-call schedule](https://openstore.pagerduty.com/schedules#PX17A75)
+  - [Service](https://openstore.pagerduty.com/service-directory/PKPJACX/activity)
+  - [Escalation
+    policy](https://openstore.pagerduty.com/escalation-policies-ui/P5D349H)
 - Sentry is used to gather error metrics and is configured to alert on specific
   error threshold.
   - [Sentry
@@ -66,16 +75,6 @@ environments.](https://s3.console.aws.amazon.com/s3/buckets/marketing-webflow-sc
     Alerts](https://sentry.io/organizations/openstore-wg/alerts/rules/?project=6588523)
 
 ## Installation and getting started
-
-First you will need to create `.env` file at the root of the project with the
-following environment variables:
-
-```
-AWS_ACCESS_KEY="[YOUR_AWS_ACCESS_KEY]"
-AWS_SECRET_KEY="[YOUR_AWS_SECRET_KEY]"
-```
-
-After that install all the project dependencies:
 
 ```sh
 pnpm install
@@ -98,6 +97,14 @@ pnpm run esbuild:packages:watch
 ```
 
 ## Deployment
+
+First you will need to create `.env` file at the root of the project with the
+following environment variables:
+
+```
+AWS_ACCESS_KEY="[YOUR_AWS_ACCESS_KEY]"
+AWS_SECRET_KEY="[YOUR_AWS_SECRET_KEY]"
+```
 
 Create a fresh build and deploy with following commands:
 

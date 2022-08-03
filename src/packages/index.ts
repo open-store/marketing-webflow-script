@@ -2,12 +2,12 @@
  * This file is the entrypoint of browser builds.
  * The code executes when loaded in a browser.
  */
-import { initializeFeatureFlags, checkGate } from './featureFlags'
+import { initializeFeatureFlags, checkGate } from './utils/featureFlags'
 import {
   initializeErrorTracking,
   addErrorTrackingBreadcrumb,
   captureError,
-} from './errorTracking'
+} from './utils/errorTracking'
 import scripts from './scripts'
 
 async function main() {
@@ -34,6 +34,7 @@ function runAllScripts() {
       // Check for specific feature flag per package script.
       if (checkGate(requireFeatureFlag)) {
         addErrorTrackingBreadcrumb(`Running script: '${scriptName}'`)
+        console.log(`Loader: '${scriptName}'`)
         handler()
       }
     } catch (err) {

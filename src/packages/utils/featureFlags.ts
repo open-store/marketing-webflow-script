@@ -1,5 +1,5 @@
 import statsig from 'statsig-js'
-import { STATSIG_API_KEY } from './constants'
+import { STATSIG_API_KEY } from '../constants'
 import { captureError } from './errorTracking'
 
 export async function initializeFeatureFlags(): Promise<void> {
