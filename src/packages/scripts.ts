@@ -1,6 +1,63 @@
 import { WebflowScript, WebflowScripts } from './types'
 import addScriptTag from '../common/addScriptTag'
-import { getConfig } from './featureFlags'
+import { getConfig } from './utils/featureFlags'
+
+const businessFormAndSegment: WebflowScript = {
+  requireFeatureFlag: 'webflow_script_businessformandsegment',
+  handler: () => {
+    const global: any = window
+    if (
+      location.hostname === 'open.store' ||
+      location.hostname === 'webflow-prod.open.store'
+    ) {
+      global.environment = 'prod'
+    } else {
+      global.environment = 'dev'
+    }
+    if (global.environment === 'prod') {
+      global.SEGMENT_WRITE_KEY = 'KAT5o7re9yC3IjvFdmwo1U9WDPHg4Qrg'
+      global.MAGICLINK_PUBLISHABLE_KEY = 'pk_live_7B8E2E83AFC00F8C'
+    } else {
+      global.SEGMENT_WRITE_KEY = 'AnuYmlQvLDeJuuQGFAMeyeKFIyCFCmYE'
+      global.MAGICLINK_PUBLISHABLE_KEY = 'pk_test_F410A8A77358DB0E'
+    }
+    addScriptTag(
+      'BusinessFormAndAnalytics',
+      'https://os-frontend-artifacts-dev.s3.us-west-2.amazonaws.com/webflow-v2.2.js',
+    )
+  },
+}
+
+const segmentOnPageLoad: WebflowScript = {
+  requireFeatureFlag: 'webflow_script_segmentonpageload',
+  handler: () => {
+    const global: any = window
+    const removeQueryParams = (pathname: string) => pathname.split('?')[0]
+
+    // This handler requires for `businessFormAndSegment` to load the Segment
+    // script tag first. It does not load Segment on its own.
+    const handleAnalytics = () => {
+      global.analyticsOS.SegmentBrowser.identify()
+
+      // Replacing old pageView event with custom one that does not fire legacy
+      // events anymore.
+      // global.analyticsOS.analytics.pageView(window.location.pathname)
+      const parsedRoute = removeQueryParams(window.location.pathname)
+      global.analyticsOS.SegmentBrowser.pageView(parsedRoute)
+    }
+
+    // Wait for analyticsOS to load first.
+    const interval = setInterval(function () {
+      if (
+        global?.analyticsOS?.SegmentBrowser?.identify &&
+        global?.analyticsOS?.analytics?.pageView
+      ) {
+        clearInterval(interval)
+        handleAnalytics()
+      }
+    }, 250)
+  },
+}
 
 const webflowOffSubmit: WebflowScript = {
   requireFeatureFlag: 'webflow_script_webflowoffsubmit',
@@ -177,6 +234,8 @@ const stackadapt: WebflowScript = {
 }
 
 const scripts: WebflowScripts = {
+  businessFormAndSegment,
+  segmentOnPageLoad,
   webflowOffSubmit,
   owlsEventListners,
   growsurf,
