@@ -7,8 +7,8 @@ const businessFormAndSegment: WebflowScript = {
   handler: () => {
     const global: any = window
     if (
-      location.hostname === 'open.store' ||
-      location.hostname === 'webflow-prod.open.store'
+      global.location.hostname === 'open.store' ||
+      global.location.hostname === 'webflow-prod.open.store'
     ) {
       global.environment = 'prod'
     } else {
@@ -42,7 +42,7 @@ const segmentOnPageLoad: WebflowScript = {
       // Replacing old pageView event with custom one that does not fire legacy
       // events anymore.
       // global.analyticsOS.analytics.pageView(window.location.pathname)
-      const parsedRoute = removeQueryParams(window.location.pathname)
+      const parsedRoute = removeQueryParams(global.location.pathname)
       global.analyticsOS.SegmentBrowser.pageView(parsedRoute)
     }
 
@@ -99,42 +99,6 @@ const owlsEventListners: WebflowScript = {
         return setTimeout(loginEvents, 250)
       }
 
-      // function loginValid(e: any) {
-      //   const email = document.getElementById('os-login-form-email') as any;
-      //   const submit = document.getElementById('os-login-form-button') as any;
-
-      //   formLogin.classList.add('hidden');
-      //   formSignUp.classList.remove('hidden');
-      //   buttonLogin.setAttribute('data-user', e);
-      //   buttonLogin.innerHTML = 'Log out';
-
-      //   email.removeAttribute('readonly');
-      //   submit.style.opacity = 1;
-      //   submit.value = 'Log In';
-      //   submit.removeAttribute('disable');
-
-      //   log(e);
-      // }
-
-      // function loginFailed(err: any) {
-      //   const email = document.getElementById('os-login-form-email');
-      //   const submit = document.getElementById('os-login-form-button');
-
-      //   email.removeAttribute('readonly');
-      //   submit.style.opacity = 1;
-      //   submit.value = 'Log In';
-      //   submit.removeAttribute('disable');
-
-      //   log({ err });
-      // }
-
-      // function logoutValid(e: any) {
-      //   buttonLogin.removeAttribute('data-user');
-      //   buttonLogin.innerHTML = 'Log in';
-
-      //   log(e);
-      // }
-
       buttonLogin.addEventListener('click', (e: any) => {
         log('click', e)
 
@@ -161,6 +125,180 @@ const owlsEventListners: WebflowScript = {
         formSignUp.classList.remove('hidden')
         document.getElementById('emailAddress')!.focus()
       })
+    }
+
+    loginEvents()
+  },
+}
+
+const owlsEventListnersReferredSignUp: WebflowScript = {
+  requireFeatureFlag: 'webflow_script_owlseventlistners_referredsignup',
+  handler: () => {
+    const global: any = window
+    const log = (...msg: any) =>
+      console.log(new Date().getTime(), 'open-store', ...msg)
+
+    // Only referred sign up page has these event listeners. Other pages use
+    // different method.
+    if (global.location.pathname !== '/referred-sign-up') {
+      log("Skipping 'owlsEventListnersReferredSignUp'")
+      return
+    }
+
+    function loginEvents(): any {
+      if (typeof global.owlsMagic === 'undefined') {
+        if (
+          typeof global.Magic === 'function' &&
+          !!global.MAGICLINK_PUBLISHABLE_KEY
+        ) {
+          global.owlsMagic = new global.Magic(global.MAGICLINK_PUBLISHABLE_KEY)
+        }
+
+        return setTimeout(loginEvents, 250)
+      }
+
+      const formLogin = document.getElementById('os-login-form')
+      const formSignUp = document.getElementById('os-signup-form-container')
+      const buttonLogin = document.getElementById('os-login-button')
+      const buttonSignup = document.getElementById('os-signup-button')
+      const buttonOffer = document.getElementById('os-offer-button')
+      const magicIsReady = !!global.owlsMagic.apiKey
+
+      log({
+        formLogin: formLogin,
+        formSignUp: formSignUp,
+        buttonLogin: buttonLogin,
+        buttonSignup: buttonSignup,
+        magicIsReady: magicIsReady,
+      })
+
+      if (
+        !formLogin ||
+        !formSignUp ||
+        !buttonLogin ||
+        !buttonSignup ||
+        !magicIsReady
+      ) {
+        return setTimeout(loginEvents, 250)
+      }
+
+      async function checkLogin() {
+        buttonLogin?.classList.add('hidden')
+
+        if (await global.owlsMagic.user.isLoggedIn()) {
+          loginValid(await global.owlsMagic.user.getIdToken())
+        }
+
+        buttonLogin?.classList.remove('hidden')
+      }
+
+      function loginWithEmail(email: string) {
+        return global.owlsMagic.auth.loginWithMagicLink({ email })
+      }
+
+      function logOut() {
+        return global.owlsMagic.user.logout()
+      }
+
+      function loginValid(e: any) {
+        const email = document.getElementById('os-login-form-email')
+        const submit = document.getElementById('os-login-form-button')
+
+        formLogin?.classList.add('hidden')
+        formSignUp?.classList.remove('hidden')
+        buttonLogin?.setAttribute('data-user', e)
+        if (buttonLogin) {
+          buttonLogin.innerHTML = 'Log out'
+        }
+
+        email?.removeAttribute('readonly')
+
+        if (submit) {
+          submit.style.opacity = '1'
+          ;(submit as any).value = 'Log In'
+          submit.removeAttribute('disable')
+        }
+
+        log(e)
+      }
+
+      function loginFailed(err: any) {
+        const email = document.getElementById('os-login-form-email')
+        const submit = document.getElementById('os-login-form-button')
+
+        email?.removeAttribute('readonly')
+
+        if (submit) {
+          submit.style.opacity = '1'
+          ;(submit as any).value = 'Log In'
+          submit.removeAttribute('disable')
+        }
+
+        log({ err })
+      }
+
+      function logoutValid(e: any) {
+        if (buttonLogin) {
+          buttonLogin.removeAttribute('data-user')
+          buttonLogin.innerHTML = 'Log in'
+        }
+
+        log(e)
+      }
+
+      formLogin.addEventListener('submit', (e) => {
+        e.preventDefault()
+
+        const email = document.getElementById('os-login-form-email')
+        const submit = document.getElementById('os-login-form-button')
+
+        email?.setAttribute('readonly', 'readonly')
+
+        if (submit) {
+          submit.style.opacity = '0.5'
+          ;(submit as any).value = 'Please wait...'
+          submit.setAttribute('disable', 'disable')
+        }
+
+        loginWithEmail((email as any).value)
+          .then(loginValid)
+          .catch(loginFailed)
+      })
+
+      buttonLogin.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        log('click', e)
+
+        if (!buttonLogin.attributes.getNamedItem('data-user')) {
+          formSignUp.classList.add('hidden')
+          formLogin.classList.remove('hidden')
+          document.getElementById('os-login-form-email')?.focus()
+        } else {
+          logOut().then(logoutValid).catch(loginFailed)
+        }
+      })
+
+      buttonSignup.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        formLogin.classList.add('hidden')
+        formSignUp.classList.remove('hidden')
+        if (global.jQuery) {
+          global.jQuery('html').animate({ scrollTop: 0 }, 'slow')
+        }
+        setTimeout(() => document.getElementById('emailAddress')?.focus(), 250)
+      })
+
+      buttonOffer?.addEventListener('click', (e) => {
+        e.preventDefault()
+
+        formLogin.classList.add('hidden')
+        formSignUp.classList.remove('hidden')
+        document.getElementById('emailAddress')?.focus()
+      })
+
+      checkLogin()
     }
 
     loginEvents()
@@ -238,6 +376,7 @@ const scripts: WebflowScripts = {
   segmentOnPageLoad,
   webflowOffSubmit,
   owlsEventListners,
+  owlsEventListnersReferredSignUp,
   growsurf,
   clearbit,
   stackadapt,
