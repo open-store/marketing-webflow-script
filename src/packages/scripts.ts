@@ -76,8 +76,15 @@ const webflowOffSubmit: WebflowScript = {
 const owlsEventListners: WebflowScript = {
   requireFeatureFlag: 'webflow_script_owlseventlistners',
   handler: () => {
+    const global: any = window
     const log = (...msg: any) =>
       console.log(new Date().getTime(), 'open-store', ...msg)
+
+    // Only business pages have these event listeners
+    if (!global.location.pathname.startsWith('/business')) {
+      log("Skipping 'owlsEventListners'")
+      return
+    }
 
     function loginEvents(): any {
       const formLogin = document.getElementById('os-login-form') as any
@@ -371,6 +378,49 @@ const stackadapt: WebflowScript = {
   },
 }
 
+const datadogRum: WebflowScript = {
+  requireFeatureFlag: 'webflow_datadog_rum',
+  handler: () => {
+    /*eslint-disable */
+    ;(function (h: any, o: any, u: any, n: any, d: any) {
+      h = h[d] = h[d] || {
+        q: [],
+        onReady: function (c: any) {
+          h.q.push(c)
+        },
+      }
+      d = o.createElement(u)
+      d.async = 1
+      d.src = n
+      n = o.getElementsByTagName(u)[0]
+      n.parentNode.insertBefore(d, n)
+    })(
+      window,
+      document,
+      'script',
+      'https://www.datadoghq-browser-agent.com/datadog-rum-v4.js',
+      'DD_RUM',
+    )
+    // @ts-ignore
+    DD_RUM.onReady(function () {
+      // @ts-ignore
+      DD_RUM.init({
+        clientToken: 'pubc69fea4df0af75f8d047a90c290b3c08',
+        applicationId: '3edb7113-40a5-4ea6-a664-c19664f64146',
+        site: 'datadoghq.com',
+        service: 'webflow.open.store',
+        env: 'production',
+        version: '1.0.0',
+        sampleRate: 100,
+        premiumSampleRate: 100,
+        trackInteractions: true,
+        defaultPrivacyLevel: 'allow',
+      })
+    })
+    /*eslint-enable */
+  },
+}
+
 const scripts: WebflowScripts = {
   businessFormAndSegment,
   segmentOnPageLoad,
@@ -380,5 +430,6 @@ const scripts: WebflowScripts = {
   growsurf,
   clearbit,
   stackadapt,
+  datadogRum,
 }
 export default scripts
