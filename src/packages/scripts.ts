@@ -416,6 +416,8 @@ const datadogRum: WebflowScript = {
         trackInteractions: true,
         defaultPrivacyLevel: 'allow',
       })
+      // @ts-ignore
+      DD_RUM.startSessionReplayRecording()
     })
     /*eslint-enable */
   },
