@@ -423,6 +423,19 @@ const datadogRum: WebflowScript = {
   },
 }
 
+const hubspotScript: WebflowScript = {
+  requireFeatureFlag: 'webflow_script_hubspot',
+  handler: () => {
+    addScriptTag(
+      'hs-script-loader',
+      '//js-na1.hs-scripts.com/19951416.js',
+      {
+        defer: true
+      }
+    )
+  }
+}
+
 const scripts: WebflowScripts = {
   businessFormAndSegment,
   segmentOnPageLoad,
@@ -433,5 +446,6 @@ const scripts: WebflowScripts = {
   clearbit,
   stackadapt,
   datadogRum,
+  hubspotScript
 }
 export default scripts
