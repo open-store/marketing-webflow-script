@@ -1,6 +1,7 @@
 export type Opts = {
   onLoad?: () => void
   attributes?: Record<string, string>
+  defer?: boolean
 }
 
 export default function addScriptTag(
@@ -20,6 +21,7 @@ export default function addScriptTag(
     scriptEl.id = scriptId
     scriptEl.type = 'text/javascript'
     scriptEl.async = true
+    scriptEl.defer = !!opts.defer
     scriptEl.src = src
 
     if (opts.onLoad) {
