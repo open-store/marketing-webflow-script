@@ -23,7 +23,7 @@ const businessFormAndSegment: WebflowScript = {
     }
     addScriptTag(
       'BusinessFormAndAnalytics',
-      'https://os-frontend-artifacts-dev.s3.us-west-2.amazonaws.com/webflow-v2.2.js',
+      'https://marketing-webflow-script-bucket.s3.us-west-2.amazonaws.com/packages/webflow-v2.2.gz.js',
     )
   },
 }
@@ -315,6 +315,11 @@ const owlsEventListnersReferredSignUp: WebflowScript = {
 const growsurf: WebflowScript = {
   requireFeatureFlag: 'webflow_script_growsur',
   handler: () => {
+    const w: any = window
+
+    if (w.location.search.indexOf('grsf') < 0) {
+      return
+    }
     // Read dynamic values config storage.
     // https://console.statsig.com/jRE7w34M1UUAn7AQKzWVC/dynamic_configs/webflow_config_growsurf
     const { campaignId, version } = getConfig('webflow_config_growsurf', [
@@ -331,7 +336,6 @@ const growsurf: WebflowScript = {
     //   ;(window as any)?.growsurf?.init?.()
     // })
 
-    const w: any = window
     w.grsfSettings = { campaignId, version }
     const src =
       'https://app.growsurf.com/growsurf.js' + '?v=' + w.grsfSettings.version
