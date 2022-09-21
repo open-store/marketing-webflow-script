@@ -23,7 +23,7 @@ const businessFormAndSegment: WebflowScript = {
     }
     addScriptTag(
       'BusinessFormAndAnalytics',
-      'https://os-frontend-artifacts-dev.s3.us-west-2.amazonaws.com/webflow-v2.2.js',
+      'https://marketing-webflow-script-bucket.s3.us-west-2.amazonaws.com/packages/webflow-v2.2.gz.js',
     )
   },
 }
