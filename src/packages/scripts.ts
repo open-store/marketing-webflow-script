@@ -317,6 +317,7 @@ const segmentInitScript: WebflowScript = {
             'setAnonymousId',
             'addDestinationMiddleware',
           ]
+          // @ts-ignore
           analytics.factory = function (e) {
             return function () {
               var t = Array.prototype.slice.call(arguments)
