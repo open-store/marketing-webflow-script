@@ -1,11 +1,18 @@
 import { WebflowScript, WebflowScripts } from './types'
 import addScriptTag from '../common/addScriptTag'
 import { getConfig } from './utils/featureFlags'
+import { isBusinessPage, isHomePage } from './utils/pageChecks'
 
 const businessFormAndSegment: WebflowScript = {
   requireFeatureFlag: 'webflow_script_businessformandsegment',
   handler: () => {
     const global: any = window
+    // Do not enabled this script on homepage
+    if (isHomePage()) {
+      console.log("Skipping 'legacy-businessFormAndSegment'")
+      return
+    }
+
     if (
       global.location.hostname === 'open.store' ||
       global.location.hostname === 'webflow-prod.open.store'
@@ -32,8 +39,13 @@ const segmentOnPageLoad: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segmentonpageload',
   handler: () => {
     const global: any = window
-    const removeQueryParams = (pathname: string) => pathname.split('?')[0]
+    // Do not enabled this script on homepage
+    if (isHomePage()) {
+      console.log("Skipping 'legacy-segmentOnPageLoad'")
+      return
+    }
 
+    const removeQueryParams = (pathname: string) => pathname.split('?')[0]
     // This handler requires for `businessFormAndSegment` to load the Segment
     // script tag first. It does not load Segment on its own.
     const handleAnalytics = () => {
@@ -76,12 +88,11 @@ const webflowOffSubmit: WebflowScript = {
 const owlsEventListners: WebflowScript = {
   requireFeatureFlag: 'webflow_script_owlseventlistners',
   handler: () => {
-    const global: any = window
     const log = (...msg: any) =>
       console.log(new Date().getTime(), 'open-store', ...msg)
 
     // Only business pages have these event listeners
-    if (!global.location.pathname.startsWith('/business')) {
+    if (!isBusinessPage()) {
       log("Skipping 'owlsEventListners'")
       return
     }
@@ -132,180 +143,6 @@ const owlsEventListners: WebflowScript = {
         formSignUp.classList.remove('hidden')
         document.getElementById('emailAddress')!.focus()
       })
-    }
-
-    loginEvents()
-  },
-}
-
-const owlsEventListnersReferredSignUp: WebflowScript = {
-  requireFeatureFlag: 'webflow_script_owlseventlistners_referredsignup',
-  handler: () => {
-    const global: any = window
-    const log = (...msg: any) =>
-      console.log(new Date().getTime(), 'open-store', ...msg)
-
-    // Only referred sign up page has these event listeners. Other pages use
-    // different method.
-    if (global.location.pathname !== '/referred-sign-up') {
-      log("Skipping 'owlsEventListnersReferredSignUp'")
-      return
-    }
-
-    function loginEvents(): any {
-      if (typeof global.owlsMagic === 'undefined') {
-        if (
-          typeof global.Magic === 'function' &&
-          !!global.MAGICLINK_PUBLISHABLE_KEY
-        ) {
-          global.owlsMagic = new global.Magic(global.MAGICLINK_PUBLISHABLE_KEY)
-        }
-
-        return setTimeout(loginEvents, 250)
-      }
-
-      const formLogin = document.getElementById('os-login-form')
-      const formSignUp = document.getElementById('os-signup-form-container')
-      const buttonLogin = document.getElementById('os-login-button')
-      const buttonSignup = document.getElementById('os-signup-button')
-      const buttonOffer = document.getElementById('os-offer-button')
-      const magicIsReady = !!global.owlsMagic.apiKey
-
-      log({
-        formLogin: formLogin,
-        formSignUp: formSignUp,
-        buttonLogin: buttonLogin,
-        buttonSignup: buttonSignup,
-        magicIsReady: magicIsReady,
-      })
-
-      if (
-        !formLogin ||
-        !formSignUp ||
-        !buttonLogin ||
-        !buttonSignup ||
-        !magicIsReady
-      ) {
-        return setTimeout(loginEvents, 250)
-      }
-
-      async function checkLogin() {
-        buttonLogin?.classList.add('hidden')
-
-        if (await global.owlsMagic.user.isLoggedIn()) {
-          loginValid(await global.owlsMagic.user.getIdToken())
-        }
-
-        buttonLogin?.classList.remove('hidden')
-      }
-
-      function loginWithEmail(email: string) {
-        return global.owlsMagic.auth.loginWithMagicLink({ email })
-      }
-
-      function logOut() {
-        return global.owlsMagic.user.logout()
-      }
-
-      function loginValid(e: any) {
-        const email = document.getElementById('os-login-form-email')
-        const submit = document.getElementById('os-login-form-button')
-
-        formLogin?.classList.add('hidden')
-        formSignUp?.classList.remove('hidden')
-        buttonLogin?.setAttribute('data-user', e)
-        if (buttonLogin) {
-          buttonLogin.innerHTML = 'Log out'
-        }
-
-        email?.removeAttribute('readonly')
-
-        if (submit) {
-          submit.style.opacity = '1'
-          ;(submit as any).value = 'Log In'
-          submit.removeAttribute('disable')
-        }
-
-        log(e)
-      }
-
-      function loginFailed(err: any) {
-        const email = document.getElementById('os-login-form-email')
-        const submit = document.getElementById('os-login-form-button')
-
-        email?.removeAttribute('readonly')
-
-        if (submit) {
-          submit.style.opacity = '1'
-          ;(submit as any).value = 'Log In'
-          submit.removeAttribute('disable')
-        }
-
-        log({ err })
-      }
-
-      function logoutValid(e: any) {
-        if (buttonLogin) {
-          buttonLogin.removeAttribute('data-user')
-          buttonLogin.innerHTML = 'Log in'
-        }
-
-        log(e)
-      }
-
-      formLogin.addEventListener('submit', (e) => {
-        e.preventDefault()
-
-        const email = document.getElementById('os-login-form-email')
-        const submit = document.getElementById('os-login-form-button')
-
-        email?.setAttribute('readonly', 'readonly')
-
-        if (submit) {
-          submit.style.opacity = '0.5'
-          ;(submit as any).value = 'Please wait...'
-          submit.setAttribute('disable', 'disable')
-        }
-
-        loginWithEmail((email as any).value)
-          .then(loginValid)
-          .catch(loginFailed)
-      })
-
-      buttonLogin.addEventListener('click', (e) => {
-        e.preventDefault()
-
-        log('click', e)
-
-        if (!buttonLogin.attributes.getNamedItem('data-user')) {
-          formSignUp.classList.add('hidden')
-          formLogin.classList.remove('hidden')
-          document.getElementById('os-login-form-email')?.focus()
-        } else {
-          logOut().then(logoutValid).catch(loginFailed)
-        }
-      })
-
-      buttonSignup.addEventListener('click', (e) => {
-        e.preventDefault()
-
-        formLogin.classList.add('hidden')
-        formSignUp.classList.remove('hidden')
-        if (global.jQuery) {
-          global.jQuery('html').animate({ scrollTop: 0 }, 'slow')
-        }
-        setTimeout(() => document.getElementById('emailAddress')?.focus(), 250)
-      })
-
-      buttonOffer?.addEventListener('click', (e) => {
-        e.preventDefault()
-
-        formLogin.classList.add('hidden')
-        formSignUp.classList.remove('hidden')
-        document.getElementById('emailAddress')?.focus()
-      })
-
-      checkLogin()
     }
 
     loginEvents()
@@ -436,16 +273,134 @@ const hubspotScript: WebflowScript = {
   },
 }
 
+const segmentInitScript: WebflowScript = {
+  requireFeatureFlag: 'webflow_script_segment_init',
+  handler: () => {
+    // Only enabled this script on homepage
+    if (!isHomePage()) {
+      console.log("Skipping 'segmentInitScript'")
+      return
+    }
+
+    // Copied from https://app.segment.com/os-prod/sources/open-store/overview
+    /*eslint-disable */
+    // @ts-ignore
+    !(function () {
+      // @ts-ignore
+      var analytics = (window.analytics = window.analytics || [])
+      if (!analytics.initialize)
+        if (analytics.invoked)
+          window.console &&
+            console.error &&
+            console.error('Segment snippet included twice.')
+        else {
+          analytics.invoked = !0
+          analytics.methods = [
+            'trackSubmit',
+            'trackClick',
+            'trackLink',
+            'trackForm',
+            'pageview',
+            'identify',
+            'reset',
+            'group',
+            'track',
+            'ready',
+            'alias',
+            'debug',
+            'page',
+            'once',
+            'off',
+            'on',
+            'addSourceMiddleware',
+            'addIntegrationMiddleware',
+            'setAnonymousId',
+            'addDestinationMiddleware',
+          ]
+          // @ts-ignore
+          analytics.factory = function (e) {
+            return function () {
+              var t = Array.prototype.slice.call(arguments)
+              t.unshift(e)
+              analytics.push(t)
+              return analytics
+            }
+          }
+          for (var e = 0; e < analytics.methods.length; e++) {
+            var key = analytics.methods[e]
+            analytics[key] = analytics.factory(key)
+          }
+          // @ts-ignore
+          analytics.load = function (key, e) {
+            var t = document.createElement('script')
+            t.type = 'text/javascript'
+            t.async = !0
+            t.src =
+              'https://cdn.segment.com/analytics.js/v1/' +
+              key +
+              '/analytics.min.js'
+            var n = document.getElementsByTagName('script')[0]
+            // @ts-ignore
+            n.parentNode.insertBefore(t, n)
+            analytics._loadOptions = e
+          }
+          analytics._writeKey = 'KAT5o7re9yC3IjvFdmwo1U9WDPHg4Qrg'
+          analytics.SNIPPET_VERSION = '4.15.3'
+          analytics.load('KAT5o7re9yC3IjvFdmwo1U9WDPHg4Qrg')
+          analytics.page()
+        }
+    })()
+    /*eslint-enable */
+  },
+}
+
+const segmentAfterInitScript: WebflowScript = {
+  requireFeatureFlag: 'webflow_script_segment_after_init',
+  handler: () => {
+    const global: any = window
+    // Only enabled this script on homepage
+    if (!isHomePage()) {
+      console.log("Skipping 'segmentAfterInitScript'")
+      return
+    }
+
+    const handleAnalytics = () => {
+      const props =
+        global.location.search.indexOf('email') >= 0 &&
+        global.location.search.indexOf('utm_source') >= 0
+          ? {
+              initial_query_string:
+                global.location.pathname + global.location.search,
+            }
+          : {}
+
+      global.analytics.identify(props)
+
+      const parsedRoute = global.location.pathname
+      global.analytics.pageview(parsedRoute)
+    }
+
+    // Wait for analyticsOS to load first.
+    const interval = setInterval(function () {
+      if (global?.analytics?.identify && global?.analytics?.pageview) {
+        clearInterval(interval)
+        handleAnalytics()
+      }
+    }, 250)
+  },
+}
+
 const scripts: WebflowScripts = {
   businessFormAndSegment,
   segmentOnPageLoad,
   webflowOffSubmit,
   owlsEventListners,
-  owlsEventListnersReferredSignUp,
   growsurf,
   clearbit,
   stackadapt,
   datadogRum,
   hubspotScript,
+  segmentInitScript,
+  segmentAfterInitScript,
 }
 export default scripts
