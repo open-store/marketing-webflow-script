@@ -257,6 +257,7 @@ const datadogRum: WebflowScript = {
         premiumSampleRate: 100,
         trackInteractions: true,
         defaultPrivacyLevel: 'allow',
+        trackSessionAcrossSubdomains: true
       })
       // @ts-ignore
       DD_RUM.startSessionReplayRecording()

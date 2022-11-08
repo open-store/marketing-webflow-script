@@ -18,7 +18,9 @@ const saveAdConversion: WebflowScript = {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(adConversion)
+            body: JSON.stringify(adConversion),
+            // This is a fire and forget, so we just need the request to be sent out
+            mode: 'cors'
         })
     }
   },
