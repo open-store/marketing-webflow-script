@@ -2,6 +2,7 @@ import { WebflowScript, WebflowScripts } from './types'
 import addScriptTag from '../common/addScriptTag'
 import { getConfig } from './utils/featureFlags'
 import { isBusinessPage, isHomePage } from './utils/pageChecks'
+import { saveAdConversion } from './scripts/saveAdConversion'
 
 const businessFormAndSegment: WebflowScript = {
   requireFeatureFlag: 'webflow_script_businessformandsegment',
@@ -256,6 +257,7 @@ const datadogRum: WebflowScript = {
         premiumSampleRate: 100,
         trackInteractions: true,
         defaultPrivacyLevel: 'allow',
+        trackSessionAcrossSubdomains: true,
       })
       // @ts-ignore
       DD_RUM.startSessionReplayRecording()
@@ -402,5 +404,6 @@ const scripts: WebflowScripts = {
   hubspotScript,
   segmentInitScript,
   segmentAfterInitScript,
+  saveAdConversion,
 }
 export default scripts
