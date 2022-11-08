@@ -257,7 +257,7 @@ const datadogRum: WebflowScript = {
         premiumSampleRate: 100,
         trackInteractions: true,
         defaultPrivacyLevel: 'allow',
-        trackSessionAcrossSubdomains: true
+        trackSessionAcrossSubdomains: true,
       })
       // @ts-ignore
       DD_RUM.startSessionReplayRecording()
@@ -404,6 +404,6 @@ const scripts: WebflowScripts = {
   hubspotScript,
   segmentInitScript,
   segmentAfterInitScript,
-  saveAdConversion
+  saveAdConversion,
 }
 export default scripts
