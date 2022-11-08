@@ -6,20 +6,20 @@ const saveAdConversion: WebflowScript = {
   handler: () => {
     const { isConversion, ...adConversionParams } = getAdConversionFromHref()
     if (isConversion) {
-        const adClickBrowserContext = getAdClickBrowserContext()
-        const adConversion = {
-          ...adConversionParams,
-          ...adClickBrowserContext
-        }
+      const adClickBrowserContext = getAdClickBrowserContext()
+      const adConversion = {
+        ...adConversionParams,
+        ...adClickBrowserContext,
+      }
 
-        const url = `${window.location.origin}/api/ad-click`
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(adConversion),
-        })
+      const url = `${window.location.origin}/api/ad-click`
+      fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(adConversion),
+      })
     }
   },
 }
