@@ -1,15 +1,15 @@
 import { WebflowScript } from '../../types'
-import { getAdClickBrowserContext, getAdConversionFromHref } from './helper'
+import { getBrowserContext, getAdConversionFromHref } from './helper'
 
 const saveAdConversion: WebflowScript = {
   requireFeatureFlag: 'webflow_script_save_ad_conversion',
   handler: () => {
     const { isConversion, ...adConversionParams } = getAdConversionFromHref()
     if (isConversion) {
-      const adClickBrowserContext = getAdClickBrowserContext()
+      const browserContext = getBrowserContext()
       const adConversion = {
         ...adConversionParams,
-        ...adClickBrowserContext,
+        ...browserContext,
       }
 
       const url = `${window.location.origin}/api/ad-click`

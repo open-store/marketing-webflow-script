@@ -1,6 +1,6 @@
 import { parseCookie } from '../../utils/cookieUtils'
 import {
-  AdClickBrowserContext,
+  BrowserContext,
   AdPlatform,
   FacebookCookieProperties,
   IsAdConversionResult,
@@ -43,9 +43,10 @@ export const getAdConversionFromHref: () => IsAdConversionResult = () => {
         clickId: ttclid,
         platform: AdPlatform.TikTokAds,
       }
-    }
-    return {
-      isConversion: false,
+    } else {
+      return {
+        isConversion: false,
+      }
     }
   } catch (e) {
     return {
@@ -67,7 +68,7 @@ const getSegmentIds = () => {
     : {}
 }
 
-export const getAdClickBrowserContext = (): AdClickBrowserContext => {
+export const getBrowserContext = (): BrowserContext => {
   return {
     ...getSegmentIds(),
     userAgent: navigator.userAgent,

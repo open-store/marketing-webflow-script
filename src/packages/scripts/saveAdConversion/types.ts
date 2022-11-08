@@ -2,8 +2,7 @@ export type AdClick = {
   platform: string
   clickId: string
   facebookPixel?: string
-  clientIp?: string
-} & AdClickBrowserContext
+} & BrowserContext
 
 export enum AdPlatform {
   GoogleAds = 'google_ads',
@@ -18,10 +17,11 @@ export type IsAdConversionResult = {
   facebookPixel?: string
 }
 
-export type AdClickBrowserContext = {
+export type BrowserContext = {
   anonymousId?: string
   leadId?: string
   userAgent?: string
+  clientIp?: string
 }
 
 export interface FacebookCookieProperties {
