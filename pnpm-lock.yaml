@@ -6,6 +6,7 @@ specifiers:
   '@sentry/integrations': ^7.7.0
   '@sentry/tracing': ^7.7.0
   '@types/jest': ^27.4.1
+  '@types/jquery': ^3.5.14
   '@types/node': ^17.0.26
   '@types/uuid': ^8.3.4
   '@typescript-eslint/eslint-plugin': ^5.20.0
@@ -23,6 +24,7 @@ specifiers:
   typescript: ^4.6.3
   uuid: ^8.3.2
   whatwg-fetch: ^3.6.2
+  yup: ^0.32.11
 
 dependencies:
   '@aws-sdk/client-s3': 3.142.0
@@ -32,9 +34,11 @@ dependencies:
   dotenv: 16.0.1
   statsig-js: 4.18.0
   whatwg-fetch: 3.6.2
+  yup: 0.32.11
 
 devDependencies:
   '@types/jest': 27.5.2
+  '@types/jquery': 3.5.14
   '@types/node': 17.0.45
   '@types/uuid': 8.3.4
   '@typescript-eslint/eslint-plugin': 5.32.0_iosr3hrei2tubxveewluhu5lhy
@@ -1217,6 +1221,13 @@ packages:
       '@babel/helper-plugin-utils': 7.18.9
     dev: true
 
+  /@babel/runtime/7.20.1:
+    resolution: {integrity: sha512-mrzLkl6U9YLF8qpqI7TB82PESyEGjm/0Ly91jG575eVxMMlb8fYfOXFZIJ8XfLrJZQbm7dlKry2bJmXBUEkdFg==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/@babel/runtime/-/runtime-7.20.1.tgz}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.10
+    dev: false
+
   /@babel/template/7.18.10:
     resolution: {integrity: sha512-TI+rCtooWHr3QJ27kJxfjutghu44DLnasDMwpDqCXVTal9RLp3RSYNh4NdBrRP2cQAoG9A8juOQl6P6oZG4JxA==}
     engines: {node: '>=6.9.0'}
@@ -1265,7 +1276,7 @@ packages:
     dev: true
 
   /@esbuild/linux-loong64/0.14.53:
-    resolution: {integrity: sha512-W2dAL6Bnyn4xa/QRSU3ilIK4EzD5wgYXKXJiS1HDF5vU3675qc2bvFyLwbUcdmssDveyndy7FbitrCoiV/eMLg==}
+    resolution: {integrity: sha512-W2dAL6Bnyn4xa/QRSU3ilIK4EzD5wgYXKXJiS1HDF5vU3675qc2bvFyLwbUcdmssDveyndy7FbitrCoiV/eMLg==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/@esbuild/linux-loong64/-/linux-loong64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [loong64]
     os: [linux]
@@ -1735,9 +1746,19 @@ packages:
       pretty-format: 27.5.1
     dev: true
 
+  /@types/jquery/3.5.14:
+    resolution: {integrity: sha512-X1gtMRMbziVQkErhTQmSe2jFwwENA/Zr+PprCkF63vFq+Yt5PZ4AlKqgmeNlwgn7dhsXEK888eIW2520EpC+xg==}
+    dependencies:
+      '@types/sizzle': 2.3.3
+    dev: true
+
   /@types/json-schema/7.0.11:
     resolution: {integrity: sha512-wOuvG1SN4Us4rez+tylwwwCV1psiNVOkJeM3AUWUNWg/jDQY2+HE/444y5gc+jBmRqASOm2Oeh5c1axHobwRKQ==}
     dev: true
+
+  /@types/lodash/4.14.188:
+    resolution: {integrity: sha512-zmEmF5OIM3rb7SbLCFYoQhO4dGt2FRM9AMkxvA3LaADOF1n8in/zGJlWji9fmafLoNyz+FoL6FE0SLtGIArD7w==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/@types/lodash/-/lodash-4.14.188.tgz}
+    dev: false
 
   /@types/node/17.0.45:
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
@@ -1745,6 +1766,10 @@ packages:
 
   /@types/prettier/2.6.4:
     resolution: {integrity: sha512-fOwvpvQYStpb/zHMx0Cauwywu9yLDmzWiiQBC7gJyq5tYLUXFZvDG7VK1B7WBxxjBJNKFOZ0zLoOQn8vmATbhw==}
+    dev: true
+
+  /@types/sizzle/2.3.3:
+    resolution: {integrity: sha512-JYM8x9EGF163bEyhdJBpR2QX1R5naCJHC8ucJylJ3w9/CVBaskdQ8WqBf8MmQrd1kRvp/a4TS8HJ+bxzR7ZJYQ==}
     dev: true
 
   /@types/stack-utils/2.0.1:
@@ -2385,7 +2410,7 @@ packages:
     dev: true
 
   /esbuild-android-64/0.14.53:
-    resolution: {integrity: sha512-fIL93sOTnEU+NrTAVMIKiAw0YH22HWCAgg4N4Z6zov2t0kY9RAJ50zY9ZMCQ+RT6bnOfDt8gCTnt/RaSNA2yRA==}
+    resolution: {integrity: sha512-fIL93sOTnEU+NrTAVMIKiAw0YH22HWCAgg4N4Z6zov2t0kY9RAJ50zY9ZMCQ+RT6bnOfDt8gCTnt/RaSNA2yRA==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-android-64/-/esbuild-android-64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [android]
@@ -2394,7 +2419,7 @@ packages:
     optional: true
 
   /esbuild-android-arm64/0.14.53:
-    resolution: {integrity: sha512-PC7KaF1v0h/nWpvlU1UMN7dzB54cBH8qSsm7S9mkwFA1BXpaEOufCg8hdoEI1jep0KeO/rjZVWrsH8+q28T77A==}
+    resolution: {integrity: sha512-PC7KaF1v0h/nWpvlU1UMN7dzB54cBH8qSsm7S9mkwFA1BXpaEOufCg8hdoEI1jep0KeO/rjZVWrsH8+q28T77A==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-android-arm64/-/esbuild-android-arm64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [android]
@@ -2403,7 +2428,7 @@ packages:
     optional: true
 
   /esbuild-darwin-64/0.14.53:
-    resolution: {integrity: sha512-gE7P5wlnkX4d4PKvLBUgmhZXvL7lzGRLri17/+CmmCzfncIgq8lOBvxGMiQ4xazplhxq+72TEohyFMZLFxuWvg==}
+    resolution: {integrity: sha512-gE7P5wlnkX4d4PKvLBUgmhZXvL7lzGRLri17/+CmmCzfncIgq8lOBvxGMiQ4xazplhxq+72TEohyFMZLFxuWvg==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-darwin-64/-/esbuild-darwin-64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [darwin]
@@ -2412,7 +2437,7 @@ packages:
     optional: true
 
   /esbuild-darwin-arm64/0.14.53:
-    resolution: {integrity: sha512-otJwDU3hnI15Q98PX4MJbknSZ/WSR1I45il7gcxcECXzfN4Mrpft5hBDHXNRnCh+5858uPXBXA1Vaz2jVWLaIA==}
+    resolution: {integrity: sha512-otJwDU3hnI15Q98PX4MJbknSZ/WSR1I45il7gcxcECXzfN4Mrpft5hBDHXNRnCh+5858uPXBXA1Vaz2jVWLaIA==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-darwin-arm64/-/esbuild-darwin-arm64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [darwin]
@@ -2421,7 +2446,7 @@ packages:
     optional: true
 
   /esbuild-freebsd-64/0.14.53:
-    resolution: {integrity: sha512-WkdJa8iyrGHyKiPF4lk0MiOF87Q2SkE+i+8D4Cazq3/iqmGPJ6u49je300MFi5I2eUsQCkaOWhpCVQMTKGww2w==}
+    resolution: {integrity: sha512-WkdJa8iyrGHyKiPF4lk0MiOF87Q2SkE+i+8D4Cazq3/iqmGPJ6u49je300MFi5I2eUsQCkaOWhpCVQMTKGww2w==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-freebsd-64/-/esbuild-freebsd-64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [freebsd]
@@ -2430,7 +2455,7 @@ packages:
     optional: true
 
   /esbuild-freebsd-arm64/0.14.53:
-    resolution: {integrity: sha512-9T7WwCuV30NAx0SyQpw8edbKvbKELnnm1FHg7gbSYaatH+c8WJW10g/OdM7JYnv7qkimw2ZTtSA+NokOLd2ydQ==}
+    resolution: {integrity: sha512-9T7WwCuV30NAx0SyQpw8edbKvbKELnnm1FHg7gbSYaatH+c8WJW10g/OdM7JYnv7qkimw2ZTtSA+NokOLd2ydQ==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-freebsd-arm64/-/esbuild-freebsd-arm64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [freebsd]
@@ -2439,7 +2464,7 @@ packages:
     optional: true
 
   /esbuild-linux-32/0.14.53:
-    resolution: {integrity: sha512-VGanLBg5en2LfGDgLEUxQko2lqsOS7MTEWUi8x91YmsHNyzJVT/WApbFFx3MQGhkf+XdimVhpyo5/G0PBY91zg==}
+    resolution: {integrity: sha512-VGanLBg5en2LfGDgLEUxQko2lqsOS7MTEWUi8x91YmsHNyzJVT/WApbFFx3MQGhkf+XdimVhpyo5/G0PBY91zg==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-linux-32/-/esbuild-linux-32-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [linux]
@@ -2448,7 +2473,7 @@ packages:
     optional: true
 
   /esbuild-linux-64/0.14.53:
-    resolution: {integrity: sha512-pP/FA55j/fzAV7N9DF31meAyjOH6Bjuo3aSKPh26+RW85ZEtbJv9nhoxmGTd9FOqjx59Tc1ZbrJabuiXlMwuZQ==}
+    resolution: {integrity: sha512-pP/FA55j/fzAV7N9DF31meAyjOH6Bjuo3aSKPh26+RW85ZEtbJv9nhoxmGTd9FOqjx59Tc1ZbrJabuiXlMwuZQ==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-linux-64/-/esbuild-linux-64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [linux]
@@ -2457,7 +2482,7 @@ packages:
     optional: true
 
   /esbuild-linux-arm/0.14.53:
-    resolution: {integrity: sha512-/u81NGAVZMopbmzd21Nu/wvnKQK3pT4CrvQ8BTje1STXcQAGnfyKgQlj3m0j2BzYbvQxSy+TMck4TNV2onvoPA==}
+    resolution: {integrity: sha512-/u81NGAVZMopbmzd21Nu/wvnKQK3pT4CrvQ8BTje1STXcQAGnfyKgQlj3m0j2BzYbvQxSy+TMck4TNV2onvoPA==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-linux-arm/-/esbuild-linux-arm-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [arm]
     os: [linux]
@@ -2466,7 +2491,7 @@ packages:
     optional: true
 
   /esbuild-linux-arm64/0.14.53:
-    resolution: {integrity: sha512-GDmWITT+PMsjCA6/lByYk7NyFssW4Q6in32iPkpjZ/ytSyH+xeEx8q7HG3AhWH6heemEYEWpTll/eui3jwlSnw==}
+    resolution: {integrity: sha512-GDmWITT+PMsjCA6/lByYk7NyFssW4Q6in32iPkpjZ/ytSyH+xeEx8q7HG3AhWH6heemEYEWpTll/eui3jwlSnw==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-linux-arm64/-/esbuild-linux-arm64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [linux]
@@ -2475,7 +2500,7 @@ packages:
     optional: true
 
   /esbuild-linux-mips64le/0.14.53:
-    resolution: {integrity: sha512-d6/XHIQW714gSSp6tOOX2UscedVobELvQlPMkInhx1NPz4ThZI9uNLQ4qQJHGBGKGfu+rtJsxM4NVHLhnNRdWQ==}
+    resolution: {integrity: sha512-d6/XHIQW714gSSp6tOOX2UscedVobELvQlPMkInhx1NPz4ThZI9uNLQ4qQJHGBGKGfu+rtJsxM4NVHLhnNRdWQ==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-linux-mips64le/-/esbuild-linux-mips64le-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [mips64el]
     os: [linux]
@@ -2484,7 +2509,7 @@ packages:
     optional: true
 
   /esbuild-linux-ppc64le/0.14.53:
-    resolution: {integrity: sha512-ndnJmniKPCB52m+r6BtHHLAOXw+xBCWIxNnedbIpuREOcbSU/AlyM/2dA3BmUQhsHdb4w3amD5U2s91TJ3MzzA==}
+    resolution: {integrity: sha512-ndnJmniKPCB52m+r6BtHHLAOXw+xBCWIxNnedbIpuREOcbSU/AlyM/2dA3BmUQhsHdb4w3amD5U2s91TJ3MzzA==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-linux-ppc64le/-/esbuild-linux-ppc64le-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [ppc64]
     os: [linux]
@@ -2493,7 +2518,7 @@ packages:
     optional: true
 
   /esbuild-linux-riscv64/0.14.53:
-    resolution: {integrity: sha512-yG2sVH+QSix6ct4lIzJj329iJF3MhloLE6/vKMQAAd26UVPVkhMFqFopY+9kCgYsdeWvXdPgmyOuKa48Y7+/EQ==}
+    resolution: {integrity: sha512-yG2sVH+QSix6ct4lIzJj329iJF3MhloLE6/vKMQAAd26UVPVkhMFqFopY+9kCgYsdeWvXdPgmyOuKa48Y7+/EQ==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-linux-riscv64/-/esbuild-linux-riscv64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [riscv64]
     os: [linux]
@@ -2502,7 +2527,7 @@ packages:
     optional: true
 
   /esbuild-linux-s390x/0.14.53:
-    resolution: {integrity: sha512-OCJlgdkB+XPYndHmw6uZT7jcYgzmx9K+28PVdOa/eLjdoYkeAFvH5hTwX4AXGLZLH09tpl4bVsEtvuyUldaNCg==}
+    resolution: {integrity: sha512-OCJlgdkB+XPYndHmw6uZT7jcYgzmx9K+28PVdOa/eLjdoYkeAFvH5hTwX4AXGLZLH09tpl4bVsEtvuyUldaNCg==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-linux-s390x/-/esbuild-linux-s390x-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [s390x]
     os: [linux]
@@ -2511,7 +2536,7 @@ packages:
     optional: true
 
   /esbuild-netbsd-64/0.14.53:
-    resolution: {integrity: sha512-gp2SB+Efc7MhMdWV2+pmIs/Ja/Mi5rjw+wlDmmbIn68VGXBleNgiEZG+eV2SRS0kJEUyHNedDtwRIMzaohWedQ==}
+    resolution: {integrity: sha512-gp2SB+Efc7MhMdWV2+pmIs/Ja/Mi5rjw+wlDmmbIn68VGXBleNgiEZG+eV2SRS0kJEUyHNedDtwRIMzaohWedQ==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-netbsd-64/-/esbuild-netbsd-64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [netbsd]
@@ -2520,7 +2545,7 @@ packages:
     optional: true
 
   /esbuild-openbsd-64/0.14.53:
-    resolution: {integrity: sha512-eKQ30ZWe+WTZmteDYg8S+YjHV5s4iTxeSGhJKJajFfQx9TLZJvsJX0/paqwP51GicOUruFpSUAs2NCc0a4ivQQ==}
+    resolution: {integrity: sha512-eKQ30ZWe+WTZmteDYg8S+YjHV5s4iTxeSGhJKJajFfQx9TLZJvsJX0/paqwP51GicOUruFpSUAs2NCc0a4ivQQ==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-openbsd-64/-/esbuild-openbsd-64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [openbsd]
@@ -2529,7 +2554,7 @@ packages:
     optional: true
 
   /esbuild-sunos-64/0.14.53:
-    resolution: {integrity: sha512-OWLpS7a2FrIRukQqcgQqR1XKn0jSJoOdT+RlhAxUoEQM/IpytS3FXzCJM6xjUYtpO5GMY0EdZJp+ur2pYdm39g==}
+    resolution: {integrity: sha512-OWLpS7a2FrIRukQqcgQqR1XKn0jSJoOdT+RlhAxUoEQM/IpytS3FXzCJM6xjUYtpO5GMY0EdZJp+ur2pYdm39g==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-sunos-64/-/esbuild-sunos-64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [sunos]
@@ -2538,7 +2563,7 @@ packages:
     optional: true
 
   /esbuild-windows-32/0.14.53:
-    resolution: {integrity: sha512-m14XyWQP5rwGW0tbEfp95U6A0wY0DYPInWBB7D69FAXUpBpBObRoGTKRv36lf2RWOdE4YO3TNvj37zhXjVL5xg==}
+    resolution: {integrity: sha512-m14XyWQP5rwGW0tbEfp95U6A0wY0DYPInWBB7D69FAXUpBpBObRoGTKRv36lf2RWOdE4YO3TNvj37zhXjVL5xg==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-windows-32/-/esbuild-windows-32-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [ia32]
     os: [win32]
@@ -2547,7 +2572,7 @@ packages:
     optional: true
 
   /esbuild-windows-64/0.14.53:
-    resolution: {integrity: sha512-s9skQFF0I7zqnQ2K8S1xdLSfZFsPLuOGmSx57h2btSEswv0N0YodYvqLcJMrNMXh6EynOmWD7rz+0rWWbFpIHQ==}
+    resolution: {integrity: sha512-s9skQFF0I7zqnQ2K8S1xdLSfZFsPLuOGmSx57h2btSEswv0N0YodYvqLcJMrNMXh6EynOmWD7rz+0rWWbFpIHQ==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-windows-64/-/esbuild-windows-64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [x64]
     os: [win32]
@@ -2556,7 +2581,7 @@ packages:
     optional: true
 
   /esbuild-windows-arm64/0.14.53:
-    resolution: {integrity: sha512-E+5Gvb+ZWts+00T9II6wp2L3KG2r3iGxByqd/a1RmLmYWVsSVUjkvIxZuJ3hYTIbhLkH5PRwpldGTKYqVz0nzQ==}
+    resolution: {integrity: sha512-E+5Gvb+ZWts+00T9II6wp2L3KG2r3iGxByqd/a1RmLmYWVsSVUjkvIxZuJ3hYTIbhLkH5PRwpldGTKYqVz0nzQ==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/esbuild-windows-arm64/-/esbuild-windows-arm64-0.14.53.tgz}
     engines: {node: '>=12'}
     cpu: [arm64]
     os: [win32]
@@ -2880,7 +2905,7 @@ packages:
     dev: true
 
   /fsevents/2.3.2:
-    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
+    resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/fsevents/-/fsevents-2.3.2.tgz}
     engines: {node: ^8.16.0 || ^10.6.0 || >=11.0.0}
     os: [darwin]
     requiresBuild: true
@@ -3802,6 +3827,10 @@ packages:
       p-locate: 5.0.0
     dev: true
 
+  /lodash-es/4.17.21:
+    resolution: {integrity: sha512-mKnC+QJ9pWVzv+C4/U3rRsHapFfHvQFoFB92e52xeyGMcX6/OlIl78je1u8vePzYZSkkogMPJ2yjxxsb89cxyw==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/lodash-es/-/lodash-es-4.17.21.tgz}
+    dev: false
+
   /lodash.memoize/4.1.2:
     resolution: {integrity: sha512-t7j+NzmgnQzTAYXcsHYLgimltOV1MXHtlOWf6GjL9Kj8GK5FInw5JotxvbOs+IvV1/Dzo04/fCGfLVs7aXb4Ag==}
     dev: true
@@ -3811,8 +3840,7 @@ packages:
     dev: true
 
   /lodash/4.17.21:
-    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
-    dev: true
+    resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/lodash/-/lodash-4.17.21.tgz}
 
   /lru-cache/6.0.0:
     resolution: {integrity: sha512-Jo6dJ04CmSjuznwJSS3pUeWmd/H0ffTlkXXgwZi+eq1UCmqQwCh+eLsYOYCwY991i2Fah4h1BEMCx4qThGbsiA==}
@@ -3898,6 +3926,10 @@ packages:
   /ms/2.1.2:
     resolution: {integrity: sha512-sGkPx+VjMtmA6MX27oA4FBFELFCZZ4S4XqeGOXCv68tT+jb3vk/RyaKWP0PTKyWtmLSM0b+adUTEvbs1PEaH2w==}
     dev: true
+
+  /nanoclone/0.2.1:
+    resolution: {integrity: sha512-wynEP02LmIbLpcYw8uBKpcfF6dmg2vcpKqxeH5UcoKEYdExslsdUA4ugFauuaeYdTB76ez6gJW8XAZ6CgkXYxA==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/nanoclone/-/nanoclone-0.2.1.tgz}
+    dev: false
 
   /natural-compare/1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
@@ -4096,6 +4128,10 @@ packages:
       sisteransi: 1.0.5
     dev: true
 
+  /property-expr/2.0.5:
+    resolution: {integrity: sha512-IJUkICM5dP5znhCckHSv30Q4b5/JA5enCtkRHYaOVOAocnH/1BQEYTC5NMfT3AVl/iXKdr3aqQbQn9DxyWknwA==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/property-expr/-/property-expr-2.0.5.tgz}
+    dev: false
+
   /psl/1.9.0:
     resolution: {integrity: sha512-E/ZsdU4HLs/68gYzgGTkMicWTLPdAftJLfJFlLUAAKZGkStNU72sZjT66SnMDVOfOWY/YAoiD7Jxa9iHvngcag==}
     dev: true
@@ -4112,6 +4148,10 @@ packages:
   /react-is/17.0.2:
     resolution: {integrity: sha512-w2GsyukL62IJnlaff/nRegPQR94C/XXamvMWmSHRJ4y7Ts/4ocGRmTHvOs8PSE6pB3dWOrD/nueuU5sduBsQ4w==}
     dev: true
+
+  /regenerator-runtime/0.13.10:
+    resolution: {integrity: sha512-KepLsg4dU12hryUO7bp/axHAKvwGOCV0sGloQtpagJ12ai+ojVDqkeGSiRX1zlq+kjIMZ1t7gpze+26QqtdGqw==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/regenerator-runtime/-/regenerator-runtime-0.13.10.tgz}
+    dev: false
 
   /regexpp/3.2.0:
     resolution: {integrity: sha512-pq2bWo9mVD43nbts2wGv17XLiNLya+GklZ8kaDLV2Z08gDCsGpnKn9BFMepvWuHCbyVvY7J5o5+BVvoQbmlJLg==}
@@ -4386,6 +4426,10 @@ packages:
     dependencies:
       is-number: 7.0.0
     dev: true
+
+  /toposort/2.0.2:
+    resolution: {integrity: sha512-0a5EOkAUp8D4moMi2W8ZF8jcga7BgZd91O/yabJCFY8az+XSzeGyTKs0Aoo897iV1Nj6guFq8orWDS96z91oGg==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/toposort/-/toposort-2.0.2.tgz}
+    dev: false
 
   /tough-cookie/4.0.0:
     resolution: {integrity: sha512-tHdtEpQCMrc1YLrMaqXXcj6AxhYi/xgit6mZu1+EDWUn+qhUf8wMQoFIy9NXuq23zAwtcB0t/MjACGR18pcRbg==}
@@ -4736,3 +4780,16 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /yup/0.32.11:
+    resolution: {integrity: sha512-Z2Fe1bn+eLstG8DRR6FTavGD+MeAwyfmouhHsIUgaADz8jvFKbO/fXc2trJKZg+5EBjh4gGm3iU/t3onKlXHIg==, tarball: https://open-store-054597037403.d.codeartifact.us-west-2.amazonaws.com:443/npm/ts/yup/-/yup-0.32.11.tgz}
+    engines: {node: '>=10'}
+    dependencies:
+      '@babel/runtime': 7.20.1
+      '@types/lodash': 4.14.188
+      lodash: 4.17.21
+      lodash-es: 4.17.21
+      nanoclone: 0.2.1
+      property-expr: 2.0.5
+      toposort: 2.0.2
+    dev: false
