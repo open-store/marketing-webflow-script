@@ -37,7 +37,7 @@ const handleSignupSubmission: WebflowScript = {
         )
         searchParams.set('storeUrl', encodeURIComponent(storeUrl as string))
 
-        window.location.href = `${signupBaseUrl}?${searchParams.toString()}`
+        window.location.href = `${signupBaseUrl}/signup?${searchParams.toString()}`
         // Reset button state
         submitButton.prop('disabled', false)
         submitButton.val(originalText as string)
