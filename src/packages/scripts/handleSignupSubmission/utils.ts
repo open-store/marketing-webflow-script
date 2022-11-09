@@ -12,7 +12,7 @@ export const SIGNUP_FORM_EMAIL_SCHEMA = Yup.object().shape({
     .matches(/^([^+])*$/g)
     .email()
     .max(150)
-    .required()
+    .required(),
 })
 
 export const SIGNUP_FORM_STORE_URL_SCHEMA = Yup.object().shape({

@@ -14,5 +14,5 @@ export const isProd = () => {
 }
 
 export const URLs = {
-  merchantOpenStore : 'https://merchant.open.store',
+  merchantOpenStore: 'https://merchant.open.store',
 }

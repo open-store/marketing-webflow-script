@@ -1,9 +1,6 @@
 import { WebflowScript } from '../../types'
 import { isProd, URLs } from '../../utils/pageChecks'
-import {
-  SIGNUP_FORM_EMAIL_SCHEMA,
-  SIGNUP_FORM_STORE_URL_SCHEMA,
-} from './utils'
+import { SIGNUP_FORM_EMAIL_SCHEMA, SIGNUP_FORM_STORE_URL_SCHEMA } from './utils'
 
 const handleSignupSubmission: WebflowScript = {
   requireFeatureFlag: 'webflow_script_handle_signup_form_submission',
