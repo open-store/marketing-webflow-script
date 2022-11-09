@@ -4,6 +4,9 @@ docker-image: &docker-image
     docker:
       - image: cimg/node:14.19.2
 
+orbs:
+  aws-cli: circleci/aws-cli@3.1.1
+
 commands:
   persist_all_to_cwd:
     steps:
@@ -28,6 +31,9 @@ jobs:
     steps:
       - checkout
       - install_pnpm
+      - aws-cli/setup
+      - run: aws codeartifact login --tool npm --repository ts --domain open-store
+      - run: echo "always-auth=true" >> ~/.npmrc
       - run:
           name: Install dependencies
           shell: /bin/bash

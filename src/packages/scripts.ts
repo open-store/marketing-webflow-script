@@ -1,40 +1,9 @@
 import { WebflowScript, WebflowScripts } from './types'
 import addScriptTag from '../common/addScriptTag'
 import { getConfig } from './utils/featureFlags'
-import { isBusinessPage, isHomePage } from './utils/pageChecks'
+import { isBusinessPage, isHomePage, isProd, URLs } from './utils/pageChecks'
 import { saveAdConversion } from './scripts/saveAdConversion'
-
-const businessFormAndSegment: WebflowScript = {
-  requireFeatureFlag: 'webflow_script_businessformandsegment',
-  handler: () => {
-    const global: any = window
-    // Do not enabled this script on homepage
-    if (isHomePage()) {
-      console.log("Skipping 'legacy-businessFormAndSegment'")
-      return
-    }
-
-    if (
-      global.location.hostname === 'open.store' ||
-      global.location.hostname === 'webflow-prod.open.store'
-    ) {
-      global.environment = 'prod'
-    } else {
-      global.environment = 'dev'
-    }
-    if (global.environment === 'prod') {
-      global.SEGMENT_WRITE_KEY = 'KAT5o7re9yC3IjvFdmwo1U9WDPHg4Qrg'
-      global.MAGICLINK_PUBLISHABLE_KEY = 'pk_live_7B8E2E83AFC00F8C'
-    } else {
-      global.SEGMENT_WRITE_KEY = 'AnuYmlQvLDeJuuQGFAMeyeKFIyCFCmYE'
-      global.MAGICLINK_PUBLISHABLE_KEY = 'pk_test_F410A8A77358DB0E'
-    }
-    addScriptTag(
-      'BusinessFormAndAnalytics',
-      'https://marketing-webflow-script-bucket.s3.us-west-2.amazonaws.com/packages/webflow-v2.2.gz.js',
-    )
-  },
-}
+import { handleSignupSubmission } from './scripts/handleSignupSubmission'
 
 const segmentOnPageLoad: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segmentonpageload',
@@ -86,67 +55,30 @@ const webflowOffSubmit: WebflowScript = {
   },
 }
 
-const owlsEventListners: WebflowScript = {
-  requireFeatureFlag: 'webflow_script_owlseventlistners',
+const businessPageHeaderButtons: WebflowScript = {
+  requireFeatureFlag: 'webflow_script_business_page_header_buttons',
   handler: () => {
-    const log = (...msg: any) =>
-      console.log(new Date().getTime(), 'open-store', ...msg)
-
-    // Only business pages have these event listeners
     if (!isBusinessPage()) {
-      log("Skipping 'owlsEventListners'")
-      return
+      console.log("Skipping 'businessPageHeaderButtons'")
     }
 
-    function loginEvents(): any {
-      const formLogin = document.getElementById('os-login-form') as any
-      const formSignUp = document.getElementById(
-        'os-signup-form-container',
-      ) as any
-      const buttonLogin = document.getElementById('os-login-button') as any
-      const buttonSignup = document.getElementById('os-signup-button') as any
-      const buttonOffer = document.getElementById('os-offer-button') as any
-
-      log({
-        formLogin: formLogin,
-        formSignUp: formSignUp,
-        buttonLogin: buttonLogin,
-        buttonSignup: buttonSignup,
+    $(document).ready(() => {
+      $('#os-offer-button').click(() => {
+        $('#signup-emailAddress').focus()
       })
 
-      if (!formLogin || !formSignUp || !buttonLogin || !buttonSignup) {
-        return setTimeout(loginEvents, 250)
-      }
-
-      buttonLogin.addEventListener('click', (e: any) => {
-        log('click', e)
-
-        if (!buttonLogin.attributes.getNamedItem('data-user')) {
-          formSignUp.classList.add('hidden')
-          formLogin.classList.remove('hidden')
-          ;(document.getElementById('os-login-form-email') as any).focus()
-        }
+      $('#os-signup-button').click(() => {
+        $('#signup-emailAddress').focus()
       })
 
-      buttonSignup.addEventListener('click', (e: any) => {
-        e.preventDefault()
-
-        formLogin.classList.add('hidden')
-        formSignUp.classList.remove('hidden')
-        ;(window as any).jQuery('html').animate({ scrollTop: 0 }, 'slow')
-        setTimeout(() => document.getElementById('emailAddress')!.focus(), 250)
+      $('#os-login-button').click((evt) => {
+        evt.preventDefault()
+        const baseUrl = isProd()
+          ? URLs.merchantOpenStore
+          : window.location.origin
+        window.location.href = `${baseUrl}/signin`
       })
-
-      buttonOffer.addEventListener('click', (e: any) => {
-        e.preventDefault()
-
-        formLogin.classList.add('hidden')
-        formSignUp.classList.remove('hidden')
-        document.getElementById('emailAddress')!.focus()
-      })
-    }
-
-    loginEvents()
+    })
   },
 }
 
@@ -393,10 +325,9 @@ const segmentAfterInitScript: WebflowScript = {
 }
 
 const scripts: WebflowScripts = {
-  businessFormAndSegment,
   segmentOnPageLoad,
   webflowOffSubmit,
-  owlsEventListners,
+  businessPageHeaderButtons,
   growsurf,
   clearbit,
   stackadapt,
@@ -405,5 +336,6 @@ const scripts: WebflowScripts = {
   segmentInitScript,
   segmentAfterInitScript,
   saveAdConversion,
+  handleSignupSubmission,
 }
 export default scripts
