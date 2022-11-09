@@ -1,41 +1,9 @@
 import { WebflowScript, WebflowScripts } from './types'
 import addScriptTag from '../common/addScriptTag'
 import { getConfig } from './utils/featureFlags'
-import { isBusinessPage, isHomePage } from './utils/pageChecks'
+import { isBusinessPage, isHomePage, isProd, URLs } from './utils/pageChecks'
 import { saveAdConversion } from './scripts/saveAdConversion'
 import { handleSignupSubmission } from './scripts/handleSignupSubmission'
-
-const businessFormAndSegment: WebflowScript = {
-  requireFeatureFlag: 'webflow_script_businessformandsegment',
-  handler: () => {
-    const global: any = window
-    // Do not enabled this script on homepage
-    if (isHomePage()) {
-      console.log("Skipping 'legacy-businessFormAndSegment'")
-      return
-    }
-
-    if (
-      global.location.hostname === 'open.store' ||
-      global.location.hostname === 'webflow-prod.open.store'
-    ) {
-      global.environment = 'prod'
-    } else {
-      global.environment = 'dev'
-    }
-    if (global.environment === 'prod') {
-      global.SEGMENT_WRITE_KEY = 'KAT5o7re9yC3IjvFdmwo1U9WDPHg4Qrg'
-      global.MAGICLINK_PUBLISHABLE_KEY = 'pk_live_7B8E2E83AFC00F8C'
-    } else {
-      global.SEGMENT_WRITE_KEY = 'AnuYmlQvLDeJuuQGFAMeyeKFIyCFCmYE'
-      global.MAGICLINK_PUBLISHABLE_KEY = 'pk_test_F410A8A77358DB0E'
-    }
-    addScriptTag(
-      'BusinessFormAndAnalytics',
-      'https://marketing-webflow-script-bucket.s3.us-west-2.amazonaws.com/packages/webflow-v2.2.gz.js',
-    )
-  },
-}
 
 const segmentOnPageLoad: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segmentonpageload',
@@ -104,11 +72,9 @@ const businessPageHeaderButtons: WebflowScript = {
       })
 
       $('#os-login-button').click(() => {
-        const baseUrl =
-          window.location.hostname === 'open.store' ||
-          window.location.hostname === 'webflow-prod.open.store'
-            ? 'https://merchant.open.store'
-            : 'http://localhost:3000'
+        const baseUrl = isProd()
+          ? URLs.merchantOpenStore
+          : window.location.origin
         window.location.href = `${baseUrl}/signin`
       })
     })
@@ -358,7 +324,6 @@ const segmentAfterInitScript: WebflowScript = {
 }
 
 const scripts: WebflowScripts = {
-  businessFormAndSegment,
   segmentOnPageLoad,
   webflowOffSubmit,
   businessPageHeaderButtons,

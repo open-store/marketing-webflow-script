@@ -1,4 +1,5 @@
 import { WebflowScript } from '../../types'
+import { isProd, URLs } from '../../utils/pageChecks'
 import { SIGNUP_FORM_VALIDATION_SCHEMA } from './utils'
 
 const handleSignupSubmission: WebflowScript = {
@@ -27,7 +28,8 @@ const handleSignupSubmission: WebflowScript = {
         const originalText = submitButton.val()
         submitButton.prop('disabled', true)
         submitButton.val('Loading....')
-        const signupBaseUrl = 'http://localhost:3000/signup'
+
+        const signupBaseUrl = isProd() ? URLs.merchantOpenStore : window.location.origin
         const searchParams = new URL(window.location.href).searchParams
         searchParams.set(
           'emailAddress',
@@ -35,10 +37,10 @@ const handleSignupSubmission: WebflowScript = {
         )
         searchParams.set('storeUrl', encodeURIComponent(storeUrl as string))
 
+        window.location.href = `${signupBaseUrl}?${searchParams.toString()}`
         // Reset button state
         submitButton.prop('disabled', false)
         submitButton.val(originalText as string)
-        window.location.href = `${signupBaseUrl}?${searchParams.toString()}`
         return false
       } else {
         // Show error messages if validation fails
