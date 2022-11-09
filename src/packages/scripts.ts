@@ -71,7 +71,8 @@ const businessPageHeaderButtons: WebflowScript = {
         $('#signup-emailAddress').focus()
       })
 
-      $('#os-login-button').click(() => {
+      $('#os-login-button').click((evt) => {
+        evt.preventDefault()
         const baseUrl = isProd()
           ? URLs.merchantOpenStore
           : window.location.origin

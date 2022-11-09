@@ -8,8 +8,8 @@ export const isBusinessPage = () => {
 
 export const isProd = () => {
   return (
-    global.location.hostname === 'open.store' ||
-    global.location.hostname === 'webflow-prod.open.store'
+    window.location.hostname === 'open.store' ||
+    window.location.hostname === 'webflow-prod.open.store'
   )
 }
 
