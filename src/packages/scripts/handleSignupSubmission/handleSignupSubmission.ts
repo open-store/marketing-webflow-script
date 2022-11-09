@@ -1,6 +1,9 @@
 import { WebflowScript } from '../../types'
 import { isProd, URLs } from '../../utils/pageChecks'
-import { SIGNUP_FORM_VALIDATION_SCHEMA } from './utils'
+import {
+  SIGNUP_FORM_EMAIL_SCHEMA,
+  SIGNUP_FORM_STORE_URL_SCHEMA,
+} from './utils'
 
 const handleSignupSubmission: WebflowScript = {
   requireFeatureFlag: 'webflow_script_handle_signup_form_submission',
@@ -33,34 +36,36 @@ const handleSignupSubmission: WebflowScript = {
         // Reset error message first
         errorMessage?.html('')
 
-        if (
-          SIGNUP_FORM_VALIDATION_SCHEMA.isValidSync({ emailAddress, storeUrl })
-        ) {
-          // Disable button to prevent double submission
-          const originalText = submitButton.val()
-          submitButton.prop('disabled', true)
-          submitButton.val('Loading....')
-
-          const signupBaseUrl = isProd()
-            ? URLs.merchantOpenStore
-            : window.location.origin
-          const searchParams = new URL(window.location.href).searchParams
-          searchParams.set(
-            'emailAddress',
-            encodeURIComponent(emailAddress as string),
-          )
-          searchParams.set('storeUrl', encodeURIComponent(storeUrl as string))
-
-          window.location.href = `${signupBaseUrl}/signup?${searchParams.toString()}`
-          // Reset button state
-          submitButton.prop('disabled', false)
-          submitButton.val(originalText as string)
-          return false
-        } else {
-          // Show error messages if validation fails
-          errorMessage?.html('Invalid email or website')
+        if (!SIGNUP_FORM_EMAIL_SCHEMA.isValidSync({ emailAddress })) {
+          errorMessage?.html('Enter a valid email')
           return false
         }
+
+        if (!SIGNUP_FORM_STORE_URL_SCHEMA.isValidSync({ storeUrl })) {
+          errorMessage?.html('Enter a valid URL')
+          return false
+        }
+
+        // Disable button to prevent double submission
+        const originalText = submitButton.val()
+        submitButton.prop('disabled', true)
+        submitButton.val('Loading....')
+
+        const signupBaseUrl = isProd()
+          ? URLs.merchantOpenStore
+          : window.location.origin
+        const searchParams = new URL(window.location.href).searchParams
+        searchParams.set(
+          'emailAddress',
+          encodeURIComponent(emailAddress as string),
+        )
+        searchParams.set('storeUrl', encodeURIComponent(storeUrl as string))
+
+        window.location.href = `${signupBaseUrl}/signup?${searchParams.toString()}`
+        // Reset button state
+        submitButton.prop('disabled', false)
+        submitButton.val(originalText as string)
+        return false
       })
     })
   },
