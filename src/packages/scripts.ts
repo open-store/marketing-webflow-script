@@ -5,6 +5,7 @@ import { isBusinessPage, isHomePage, isProd, URLs } from './utils/pageChecks'
 import { saveAdConversion } from './scripts/saveAdConversion'
 import { handleSignupSubmission } from './scripts/handleSignupSubmission'
 import { isAdBlockerDetected } from './scripts/detectAdBlocker'
+import { plausibleScript } from './scripts/plausibleScript'
 
 const segmentOnPageLoad: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segmentonpageload',
@@ -343,5 +344,6 @@ const scripts: WebflowScripts = {
   segmentAfterInitScript,
   saveAdConversion,
   handleSignupSubmission,
+  plausibleScript,
 }
 export default scripts
