@@ -17,9 +17,13 @@ const handleSignupSigninLinks: WebflowScript = {
         const signupBaseUrl = isProd()
           ? URLs.merchantOpenStore
           : window.location.origin
-        const searchParams = new URL(window.location.href).searchParams.toString()
+        const searchParams = new URL(
+          window.location.href,
+        ).searchParams.toString()
 
-        window.location.href = `${signupBaseUrl}/signup${searchParams ? `?${searchParams}` : ''}`
+        window.location.href = `${signupBaseUrl}/signup${
+          searchParams ? `?${searchParams}` : ''
+        }`
       })
     })
 
@@ -31,9 +35,13 @@ const handleSignupSigninLinks: WebflowScript = {
         const signinBaseUrl = isProd()
           ? URLs.merchantOpenStore
           : window.location.origin
-        const searchParams = new URL(window.location.href).searchParams.toString()
+        const searchParams = new URL(
+          window.location.href,
+        ).searchParams.toString()
 
-        window.location.href = `${signinBaseUrl}/signin${searchParams ? `?${searchParams}` : ''}`
+        window.location.href = `${signinBaseUrl}/signin${
+          searchParams ? `?${searchParams}` : ''
+        }`
       })
     })
   },
