@@ -6,6 +6,8 @@ import { saveAdConversion } from './scripts/saveAdConversion'
 import { handleSignupSubmission } from './scripts/handleSignupSubmission'
 import { isAdBlockerDetected } from './scripts/detectAdBlocker'
 import { plausibleScript } from './scripts/plausibleScript'
+import { bingScript } from './scripts/bingScript'
+import { postalyticsScript } from './scripts/postalyticsScript'
 
 const segmentOnPageLoad: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segmentonpageload',
@@ -345,5 +347,7 @@ const scripts: WebflowScripts = {
   saveAdConversion,
   handleSignupSubmission,
   plausibleScript,
+  bingScript,
+  postalyticsScript,
 }
 export default scripts
