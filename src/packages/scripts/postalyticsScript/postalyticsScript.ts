@@ -13,7 +13,6 @@ const postalyticsScript: WebflowScript = {
     // @ts-ignore
     if (ac != null) a = ac
     if (a != null) {
-      var _bn_d = a[1]
       ;(function () {
         var pl = document.createElement('script')
         pl.type = 'text/javascript'
