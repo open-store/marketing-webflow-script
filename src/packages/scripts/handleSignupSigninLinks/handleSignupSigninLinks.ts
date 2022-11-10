@@ -6,6 +6,7 @@ const handleSignupSigninLinks: WebflowScript = {
   handler: () => {
     if (!isHomePage()) {
       console.log('Skipping handleSignupSigninLinks')
+      return
     }
 
     // new form handling
