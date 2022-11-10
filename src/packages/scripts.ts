@@ -4,6 +4,7 @@ import { getConfig } from './utils/featureFlags'
 import { isBusinessPage, isHomePage, isProd, URLs } from './utils/pageChecks'
 import { saveAdConversion } from './scripts/saveAdConversion'
 import { handleSignupSubmission } from './scripts/handleSignupSubmission'
+import { postalyticsScript } from './scripts/postalyticsScript'
 
 const segmentOnPageLoad: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segmentonpageload',
@@ -337,5 +338,6 @@ const scripts: WebflowScripts = {
   segmentAfterInitScript,
   saveAdConversion,
   handleSignupSubmission,
+  postalyticsScript,
 }
 export default scripts
