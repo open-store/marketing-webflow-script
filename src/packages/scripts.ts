@@ -316,7 +316,7 @@ const segmentAfterInitScript: WebflowScript = {
 
       const adBlockerDetected = await isAdBlockerDetected()
       global.analytics.identify({
-        ['ad_blocker_detected']: adBlockerDetected
+        ['ad_blocker_detected']: adBlockerDetected,
       })
     }
 
