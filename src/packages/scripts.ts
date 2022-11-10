@@ -5,6 +5,7 @@ import { isBusinessPage, isHomePage, isProd, URLs } from './utils/pageChecks'
 import { saveAdConversion } from './scripts/saveAdConversion'
 import { handleSignupSubmission } from './scripts/handleSignupSubmission'
 import { isAdBlockerDetected } from './scripts/detectAdBlocker'
+import { plausibleScript } from './scripts/plausibleScript'
 import { bingScript } from './scripts/bingScript'
 import { postalyticsScript } from './scripts/postalyticsScript'
 
@@ -345,6 +346,7 @@ const scripts: WebflowScripts = {
   segmentAfterInitScript,
   saveAdConversion,
   handleSignupSubmission,
+  plausibleScript,
   bingScript,
   postalyticsScript,
 }
