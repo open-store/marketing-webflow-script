@@ -4,6 +4,7 @@ import { getConfig } from './utils/featureFlags'
 import { isBusinessPage, isHomePage, isProd, URLs } from './utils/pageChecks'
 import { saveAdConversion } from './scripts/saveAdConversion'
 import { handleSignupSubmission } from './scripts/handleSignupSubmission'
+import { isAdBlockerDetected } from './scripts/detectAdBlocker'
 import { bingScript } from './scripts/bingScript'
 import { postalyticsScript } from './scripts/postalyticsScript'
 
@@ -300,7 +301,7 @@ const segmentAfterInitScript: WebflowScript = {
       return
     }
 
-    const handleAnalytics = () => {
+    const handleAnalytics = async () => {
       const props =
         global.location.search.indexOf('email') >= 0 &&
         global.location.search.indexOf('utm_source') >= 0
@@ -314,13 +315,18 @@ const segmentAfterInitScript: WebflowScript = {
 
       const parsedRoute = global.location.pathname
       global.analytics.pageview(parsedRoute)
+
+      const adBlockerDetected = await isAdBlockerDetected()
+      global.analytics.identify({
+        ['ad_blocker_detected']: adBlockerDetected,
+      })
     }
 
     // Wait for analyticsOS to load first.
-    const interval = setInterval(function () {
+    const interval = setInterval(async function () {
       if (global?.analytics?.identify && global?.analytics?.pageview) {
         clearInterval(interval)
-        handleAnalytics()
+        await handleAnalytics()
       }
     }, 250)
   },
