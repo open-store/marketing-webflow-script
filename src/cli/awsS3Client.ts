@@ -30,13 +30,13 @@ export async function uploadFileToS3({
   filePath,
   destPath,
   contentEncoding = 'gzip',
-  contentType = 'text/javascript'
+  contentType = 'text/javascript',
 }: {
   client: S3Client
   filePath: string
   destPath: string
-  contentEncoding?: string,
-  contentType?: string,
+  contentEncoding?: string
+  contentType?: string
 }) {
   const fileStream = fs.createReadStream(filePath)
   const fileKey = destPath
