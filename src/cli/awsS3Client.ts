@@ -1,5 +1,4 @@
 import fs from 'fs'
-import path from 'path'
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
 import {
   AWS_SECRET_KEY,
@@ -26,13 +25,21 @@ export function getStorageUrl(
   return `https://${bucket}.s3.${region}.amazonaws.com/${fileName}`
 }
 
-export async function uploadFileToS3(
-  client: S3Client,
-  filePath: string,
-  destPath?: string,
-) {
+export async function uploadFileToS3({
+  client,
+  filePath,
+  destPath,
+  contentEncoding = 'gzip',
+  contentType = 'text/javascript'
+}: {
+  client: S3Client
+  filePath: string
+  destPath: string
+  contentEncoding?: string,
+  contentType?: string,
+}) {
   const fileStream = fs.createReadStream(filePath)
-  const fileKey = destPath || path.basename(filePath)
+  const fileKey = destPath
 
   await client.send(
     new PutObjectCommand({
@@ -40,6 +47,8 @@ export async function uploadFileToS3(
       Key: fileKey,
       Body: fileStream,
       ACL: 'public-read',
+      ContentEncoding: contentEncoding,
+      ContentType: contentType,
     }),
   )
 
