@@ -17,10 +17,10 @@
     "test:watch": "jest --watch",
     "build": "pnpm run esbuild:loader && pnpm run esbuild:packages",
     "deploy": "pnpm run cli",
-    "esbuild:loader": "esbuild src/loader/index.ts --bundle --minify --target=chrome58,firefox57,safari11,edge18 --sourcemap=external --outfile=dist/esbuild/loader/index.js",
+    "esbuild:loader": "esbuild src/loader/index.ts --bundle --minify --target=chrome58,firefox57,safari11,edge18 --sourcemap=external --outfile=dist/esbuild/loader/index.js && gzip -c -9 dist/esbuild/loader/index.js > dist/esbuild/loader/index.gz.js",
     "esbuild:loader:dev": "esbuild src/loader/index.ts --bundle --outfile=dist/esbuild/loader/index.js",
     "esbuild:loader:watch": "esbuild src/loader/index.ts --bundle --watch --outfile=dist/esbuild/loader/index.js",
-    "esbuild:packages": "esbuild src/packages/index.ts --bundle --minify --target=chrome58,firefox57,safari11,edge18 --sourcemap=external --outfile=dist/esbuild/packages/index.js",
+    "esbuild:packages": "esbuild src/packages/index.ts --bundle --minify --target=chrome58,firefox57,safari11,edge18 --sourcemap=external --outfile=dist/esbuild/packages/index.js && gzip -c -9 dist/esbuild/packages/index.js > dist/esbuild/packages/index.gz.js",
     "esbuild:packages:dev": "esbuild src/packages/index.ts --bundle --outfile=dist/esbuild/packages/index.js",
     "esbuild:packages:watch": "esbuild src/packages/index.ts --bundle --watch --outfile=dist/esbuild/packages/index.js"
   },
