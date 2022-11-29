@@ -19,7 +19,7 @@ const handleSignupSubmission: WebflowScript = {
         const submitButton = form.find('.signupbutton')
         const errorMessage = form.find('.signuperrormessage')
         const emailAddress = form.find('.signupemailaddress').val()
-        const storeUrl =form.find('.signupstoreurl').val()
+        const storeUrl = form.find('.signupstoreurl').val()
 
         // Reset error message first
         errorMessage?.html('')
