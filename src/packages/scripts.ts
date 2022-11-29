@@ -10,42 +10,6 @@ import { bingScript } from './scripts/bingScript'
 import { postalyticsScript } from './scripts/postalyticsScript'
 import { handleSignupSigninLinks } from './scripts/handleSignupSigninLinks'
 
-const segmentOnPageLoad: WebflowScript = {
-  requireFeatureFlag: 'webflow_script_segmentonpageload',
-  handler: () => {
-    const global: any = window
-    // Do not enabled this script on homepage
-    if (isHomePage()) {
-      console.log("Skipping 'legacy-segmentOnPageLoad'")
-      return
-    }
-
-    const removeQueryParams = (pathname: string) => pathname.split('?')[0]
-    // This handler requires for `businessFormAndSegment` to load the Segment
-    // script tag first. It does not load Segment on its own.
-    const handleAnalytics = () => {
-      global.analyticsOS.SegmentBrowser.identify()
-
-      // Replacing old pageView event with custom one that does not fire legacy
-      // events anymore.
-      // global.analyticsOS.analytics.pageView(window.location.pathname)
-      const parsedRoute = removeQueryParams(global.location.pathname)
-      global.analyticsOS.SegmentBrowser.pageView(parsedRoute)
-    }
-
-    // Wait for analyticsOS to load first.
-    const interval = setInterval(function () {
-      if (
-        global?.analyticsOS?.SegmentBrowser?.identify &&
-        global?.analyticsOS?.analytics?.pageView
-      ) {
-        clearInterval(interval)
-        handleAnalytics()
-      }
-    }, 250)
-  },
-}
-
 const webflowOffSubmit: WebflowScript = {
   requireFeatureFlag: 'webflow_script_webflowoffsubmit',
   handler: () => {
@@ -215,12 +179,6 @@ const hubspotScript: WebflowScript = {
 const segmentInitScript: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segment_init',
   handler: () => {
-    // Only enabled this script on homepage
-    if (!isHomePage()) {
-      console.log("Skipping 'segmentInitScript'")
-      return
-    }
-
     // Copied from https://app.segment.com/os-prod/sources/open-store/overview
     /*eslint-disable */
     // @ts-ignore
@@ -297,11 +255,6 @@ const segmentAfterInitScript: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segment_after_init',
   handler: () => {
     const global: any = window
-    // Only enabled this script on homepage
-    if (!isHomePage()) {
-      console.log("Skipping 'segmentAfterInitScript'")
-      return
-    }
 
     const handleAnalytics = async () => {
       const props =
@@ -335,7 +288,6 @@ const segmentAfterInitScript: WebflowScript = {
 }
 
 const scripts: WebflowScripts = {
-  segmentOnPageLoad,
   webflowOffSubmit,
   businessPageHeaderButtons,
   growsurf,
