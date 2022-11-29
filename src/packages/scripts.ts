@@ -179,12 +179,6 @@ const hubspotScript: WebflowScript = {
 const segmentInitScript: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segment_init',
   handler: () => {
-    // Only enabled this script on homepage
-    if (!isHomePage()) {
-      console.log("Skipping 'segmentInitScript'")
-      return
-    }
-
     // Copied from https://app.segment.com/os-prod/sources/open-store/overview
     /*eslint-disable */
     // @ts-ignore
