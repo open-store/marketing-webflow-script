@@ -1,7 +1,7 @@
 import { WebflowScript, WebflowScripts } from './types'
 import addScriptTag from '../common/addScriptTag'
 import { getConfig } from './utils/featureFlags'
-import { isBusinessPage, isHomePage, isProd, URLs } from './utils/pageChecks'
+import { isBusinessPage, isProd, URLs } from './utils/pageChecks'
 import { saveAdConversion } from './scripts/saveAdConversion'
 import { handleSignupSubmission } from './scripts/handleSignupSubmission'
 import { isAdBlockerDetected } from './scripts/detectAdBlocker'
@@ -179,6 +179,12 @@ const hubspotScript: WebflowScript = {
 const segmentInitScript: WebflowScript = {
   requireFeatureFlag: 'webflow_script_segment_init',
   handler: () => {
+    // Only enabled this script on homepage
+    if (!isHomePage()) {
+      console.log("Skipping 'segmentInitScript'")
+      return
+    }
+
     // Copied from https://app.segment.com/os-prod/sources/open-store/overview
     /*eslint-disable */
     // @ts-ignore
