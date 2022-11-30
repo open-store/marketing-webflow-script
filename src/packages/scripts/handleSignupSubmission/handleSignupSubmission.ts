@@ -16,19 +16,10 @@ const handleSignupSubmission: WebflowScript = {
       signupForm.submit(function (evt) {
         evt.preventDefault()
         const form = $(this)
-        // The Id of the container has to be set on the two parent above
-        // Webflow does not support parametrizing ID of a symbol (reusuable component), so
-        // the id override needs to happen on one level above
-        const id = form.parent().parent().attr('id')
-
-        /**
-         * Use id to locate the corresponding element in the group to support
-         * multiple forms
-         */
-        const submitButton = $(`div#${id} .signupbutton`)
-        const errorMessage = $(`div#${id} .signuperrormessage`)
-        const emailAddress = $(`div#${id} .signupemailaddress`).val()
-        const storeUrl = $(`div#${id} .signupstoreurl`).val()
+        const submitButton = form.find('.signupbutton')
+        const errorMessage = form.find('.signuperrormessage')
+        const emailAddress = form.find('.signupemailaddress').val()
+        const storeUrl = form.find('.signupstoreurl').val()
 
         // Reset error message first
         errorMessage?.html('')
