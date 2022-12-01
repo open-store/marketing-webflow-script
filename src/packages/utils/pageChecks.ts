@@ -2,6 +2,10 @@ export const isHomePage = () => {
   return window.location.pathname === '/'
 }
 
+export const isBlogPostPage = () => {
+  return window.location.pathname.startsWith('/blog')
+}
+
 export const isBusinessPage = () => {
   return window.location.pathname.startsWith('/business')
 }
