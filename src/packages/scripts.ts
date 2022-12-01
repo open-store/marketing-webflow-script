@@ -289,6 +289,7 @@ const segmentAfterInitScript: WebflowScript = {
 }
 
 const scripts: WebflowScripts = {
+  generateTOCFromHeadings,
   webflowOffSubmit,
   businessPageHeaderButtons,
   growsurf,
@@ -304,6 +305,5 @@ const scripts: WebflowScripts = {
   bingScript,
   postalyticsScript,
   handleSignupSigninLinks,
-  generateTOCFromHeadings,
 }
 export default scripts

@@ -22,6 +22,8 @@ const generateTOCFromHeadings: WebflowScript = {
   requireFeatureFlag: 'webflow_script_generate_toc_from_headings',
   handler: () => {
     const tocBlock = $('#toc')
+    // Only shows H3s in TOC if window has sufficient width
+    const shouldShowH3s = ($(window).width() ?? 0) >= 1280
 
     if (!isBlogPostPage() || tocBlock.length === 0) {
       console.log('Skipping generateTOCFromHeadings')
@@ -38,7 +40,7 @@ const generateTOCFromHeadings: WebflowScript = {
         const h2 = $(this)
         const h2ListItem = createListItemFromHeading(h2)
         const h3s = h2.nextUntil('h2').filter('h3')
-        if (h3s.length > 0) {
+        if (h3s.length > 0 && shouldShowH3s) {
           const h3ListContainer = $('<ul></ul>')
           h3ListContainer.addClass(['toc-list', 'toc-sub-list'])
           h3s.each(function () {
