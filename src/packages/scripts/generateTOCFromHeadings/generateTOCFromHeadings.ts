@@ -36,7 +36,6 @@ const generateTOCFromHeadings: WebflowScript = {
 
       h2s.each(function () {
         const h2 = $(this)
-        h2.html
         const h2ListItem = createListItemFromHeading(h2)
         const h3s = h2.nextUntil('h2').filter('h3')
         if (h3s.length > 0) {
