@@ -9,6 +9,7 @@ import { plausibleScript } from './scripts/plausibleScript'
 import { bingScript } from './scripts/bingScript'
 import { postalyticsScript } from './scripts/postalyticsScript'
 import { handleSignupSigninLinks } from './scripts/handleSignupSigninLinks'
+import { generateTOCFromHeadings } from './scripts/generateTOCFromHeadings'
 
 const webflowOffSubmit: WebflowScript = {
   requireFeatureFlag: 'webflow_script_webflowoffsubmit',
@@ -303,5 +304,6 @@ const scripts: WebflowScripts = {
   bingScript,
   postalyticsScript,
   handleSignupSigninLinks,
+  generateTOCFromHeadings,
 }
 export default scripts
