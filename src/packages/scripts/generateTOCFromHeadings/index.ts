@@ -1,1 +1,1 @@
-export { default as generateTOCFromHeadings} from './generateTOCFromHeadings'
+export { default as generateTOCFromHeadings } from './generateTOCFromHeadings'
