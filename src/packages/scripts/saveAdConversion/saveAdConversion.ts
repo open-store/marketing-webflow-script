@@ -12,7 +12,7 @@ const saveAdConversion: WebflowScript = {
         ...browserContext,
       }
 
-      const url = `${window.location.origin}/api/ad-click`
+      const url = `https://merchant.open.store/api/ad-click`
       fetch(url, {
         method: 'POST',
         headers: {
